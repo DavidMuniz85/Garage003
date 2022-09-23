@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Garage003.Models;
 
 namespace Garage003.Data
 {
@@ -9,5 +10,6 @@ namespace Garage003.Data
             : base(options)
         {
         }
+        public DbSet<Garage003.Models.Item> Item { get; set; }
     }
 }
