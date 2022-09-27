@@ -10,6 +10,18 @@ namespace Garage003.Data
             : base(options)
         {
         }
-        public DbSet<Garage003.Models.Item> Item { get; set; }
+        public DbSet<Item> Item { get; set; }
+        public DbSet<Zone> Zone { get; set; }
+
+        //Fluent API
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Item>()
+                .Property(s => s.ItemId)
+                .HasColumnName("Id")
+                .IsRequired();
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
