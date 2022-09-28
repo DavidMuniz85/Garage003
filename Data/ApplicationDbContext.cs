@@ -26,6 +26,11 @@ namespace Garage003.Data
                 .IsRequired();
 
             base.OnModelCreating(modelBuilder);
+            //Item
+            modelBuilder.Entity<Item>()
+            .HasOne<Category>(s => s.Category)
+            .WithMany(g => g.Items)
+            .HasForeignKey(s => s.CategoryId);
 
             //Zone Model
             modelBuilder.Entity<Zone>()

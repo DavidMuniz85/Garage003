@@ -8,5 +8,8 @@ namespace Garage003.Models
         public int ItemId { get; set; }
         public string ItemName { get; set; } = string.Empty;
         public int ItemSKU { get; set; }
+
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }
