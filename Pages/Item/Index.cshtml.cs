@@ -25,7 +25,8 @@ namespace Garage003.Pages.Item
         {
             if (_context.Item != null)
             {
-                Item = await _context.Item.ToListAsync();
+                Item = await _context.Item.Include(c => c.Category)
+                    .ToListAsync();
             }
         }
     }

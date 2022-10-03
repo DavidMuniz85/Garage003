@@ -13,14 +13,28 @@ namespace Garage003.Pages.Item
     public class CreateModel : PageModel
     {
         private readonly Garage003.Data.ApplicationDbContext _context;
+        public List<SelectListItem> Categories { get; set; }
 
         public CreateModel(Garage003.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(string categoryId)
         {
+            Categories = _context.Category.Select(a =>
+                                  new SelectListItem
+                                  {
+                                      Value = a.CategoryId.ToString(),
+                                      Text = a.CategoryName
+                                  }).ToList();
+            //View Data que regresa Categorias
+            ViewData["Categorias"] = new SelectList(_context.Category.Select(a =>
+                                  new SelectListItem
+                                  {
+                                      Value = a.CategoryId.ToString(),
+                                      Text = a.CategoryName
+                                  }).ToList());
             return Page();
         }
 
@@ -29,12 +43,26 @@ namespace Garage003.Pages.Item
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string categoryId)
         {
-          if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            int x = Convert.ToInt16(categoryId);
+            
+            Item.CategoryId = x;
+            Models.Category cat = new Models.Category();
+            cat = _context.Category.Find(x);
+            Item.Category = cat;
+            
+            //if (!ModelState.IsValid)
+            //{
+            //    var errorList = new List<string>();
+            //    List<string> keys = ModelState.Keys.ToList();
+            //    foreach (string key in keys)
+            //    {
+            //        var errors = ModelState[key].Errors.ToList();
+            //        errors.ForEach(x => { errorList.Add(x.ErrorMessage); });
+            //    }
+            //    return Page();
+            //}
 
             _context.Item.Add(Item);
             await _context.SaveChangesAsync();
