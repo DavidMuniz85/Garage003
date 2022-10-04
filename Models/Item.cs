@@ -11,5 +11,8 @@ namespace Garage003.Models
 
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
+
+        public int StatusId { get; set; }
+        public virtual Status Status { get; set; }
     }
 }

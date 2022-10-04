@@ -32,6 +32,11 @@ namespace Garage003.Data
             .WithMany(g => g.Items)
             .HasForeignKey(s => s.CategoryId);
 
+            modelBuilder.Entity<Item>()
+            .HasOne<Status>(s => s.Status)
+            .WithMany(g => g.Items)
+            .HasForeignKey(s => s.StatusId);
+
             //Zone Model
             modelBuilder.Entity<Zone>()
                 .Property(s => s.ZoneId)
