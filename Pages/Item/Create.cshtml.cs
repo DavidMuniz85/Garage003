@@ -45,18 +45,14 @@ namespace Garage003.Pages.Item
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync(string categoryId, string statusId)
         {
-            int x = Convert.ToInt16(categoryId);
-            int y = Convert.ToInt16(statusId);
+            Item.CategoryId = Convert.ToInt16(categoryId);
+            Item.StatusId = Convert.ToInt16(statusId);
+            Item.Category = _context.Category.Find(Item.CategoryId);
+            Item.Status = _context.Status.Find(Item.StatusId);
 
-            Item.CategoryId = x;
-            Item.StatusId = y;
-
-            Models.Category cat = new Models.Category();
-            cat = _context.Category.Find(x);
-            Item.Category = cat;
-            Models.Status status = new Models.Status();
-            status = _context.Status.Find(y);
-            Item.Status = status;
+            Item.ItemSKU = _context.Item.Max(x => x.ItemSKU) + 1;
+            
+            //Item.Status = status;
 
 
             _context.Item.Add(Item);
