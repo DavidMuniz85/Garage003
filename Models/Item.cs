@@ -17,3 +17,4 @@ namespace Garage003.Models
         public virtual Status Status { get; set; }
     }
 }
+  
