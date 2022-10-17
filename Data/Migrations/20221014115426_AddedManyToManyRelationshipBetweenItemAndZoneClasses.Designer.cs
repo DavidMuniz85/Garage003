@@ -4,6 +4,7 @@ using Garage003.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Garage003.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221014115426_AddedManyToManyRelationshipBetweenItemAndZoneClasses")]
+    partial class AddedManyToManyRelationshipBetweenItemAndZoneClasses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,7 +106,7 @@ namespace Garage003.Data.Migrations
 
                     b.HasIndex("ZoneId");
 
-                    b.ToTable("ItemZones");
+                    b.ToTable("ItemZone");
                 });
 
             modelBuilder.Entity("Garage003.Models.Status", b =>

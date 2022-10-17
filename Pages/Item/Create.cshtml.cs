@@ -15,6 +15,8 @@ namespace Garage003.Pages.Item
         private readonly Garage003.Data.ApplicationDbContext _context;
         public List<SelectListItem> Categories { get; set; }
         public List<SelectListItem> Statuses { get; set; }
+        public List<SelectListItem> Zones { get; set; }
+
 
         public CreateModel(Garage003.Data.ApplicationDbContext context)
         {
@@ -35,6 +37,12 @@ namespace Garage003.Pages.Item
                                       Value = s.StatusId.ToString(),
                                       Text = s.StatusName
                                   }).ToList();
+            Zones = _context.Zone.Select(s =>
+                                  new SelectListItem
+                                  {
+                                      Value = s.ZoneId.ToString(),
+                                      Text= s.ZoneName
+                                  }).ToList();
             return Page();
         }
 
@@ -43,21 +51,30 @@ namespace Garage003.Pages.Item
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync(string categoryId, string statusId)
-        {
+        public async Task<IActionResult> OnPostAsync(string categoryId, string statusId, string zoneid)
+        {                
             Item.CategoryId = Convert.ToInt16(categoryId);
             Item.StatusId = Convert.ToInt16(statusId);
+            int zid = Convert.ToInt16(zoneid);
             Item.Category = _context.Category.Find(Item.CategoryId);
             Item.Status = _context.Status.Find(Item.StatusId);
-
-            Item.ItemSKU = _context.Item.Max(x => x.ItemSKU) + 1;
-            
-            //Item.Status = status;
-
-
+            //Item.ItemsZones.Add(_context.Zone.Where(x => x.ZoneId == zid));
+            if (!_context.Item.Any())
+                Item.ItemSKU = 1;
+            else
+                Item.ItemSKU = _context.Item.Max(x => x.ItemSKU) + 1;
             _context.Item.Add(Item);
             await _context.SaveChangesAsync();
 
+            if (zoneid != null)
+            {
+                var itemZone = new ItemZone();
+                itemZone.ZoneId = zid;
+                itemZone.ItemId = Item.ItemId;
+                _context.ItemZones.Add(itemZone);
+                await _context.SaveChangesAsync();
+            }
+            await _context.SaveChangesAsync();
             return RedirectToPage("./Index");
         }
     }

@@ -4,6 +4,7 @@ namespace Garage003.Models
 {
     public class Item
     {
+        private List<ItemZone> _itemszones;
         [Key]
         public int ItemId { get; set; }
         public string ItemName { get; set; } = string.Empty;
@@ -15,6 +16,8 @@ namespace Garage003.Models
 
         public int StatusId { get; set; }
         public virtual Status Status { get; set; }
+
+        public virtual List<ItemZone> ItemsZones { get { return _itemszones ?? (_itemszones = new List<ItemZone>()); } }
     }
 }
   

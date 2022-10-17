@@ -26,11 +26,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.Item[0].Status.StatusName)
             </th>
+            <th>
+                Zone
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Item) {
+@foreach(var item in Model.Item) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ItemName)
@@ -44,6 +47,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Status.StatusName)
             </td>
+                @foreach( var zone in item.ItemsZones)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem2 => zone.Item.ItemName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem2 => zone.Zone.ZoneName)
+                    </td>
+                }
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ItemId">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.ItemId">Details</a> |

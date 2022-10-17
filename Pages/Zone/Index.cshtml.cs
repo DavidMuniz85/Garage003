@@ -25,7 +25,9 @@ namespace Garage003.Pages.Zone
         {
             if (_context.Zone != null)
             {
-                Zone = await _context.Zone.ToListAsync();
+                Zone = await _context.Zone.Include(x => x.ItemsZones)
+                    .ThenInclude(x => x.Item)
+                    .ToListAsync();
             }
         }
     }

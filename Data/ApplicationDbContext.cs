@@ -15,6 +15,7 @@ namespace Garage003.Data
         public DbSet<Category> Category { get; set; }
         public DbSet<Garage> Garage { get; set; }
         public DbSet<Status> Status { get; set; }
+        public DbSet<ItemZone> ItemZones { get; set; }
 
         //Fluent API
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -68,6 +69,20 @@ namespace Garage003.Data
                 .IsRequired();
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ItemZone>()
+                .HasKey(iz => new { iz.ItemId, iz.ZoneId });
+
+            modelBuilder.Entity<ItemZone>()
+                .HasOne<Item>(i => i.Item)
+                .WithMany(iz => iz.ItemsZones)
+                .HasForeignKey(i => i.ItemId);
+
+
+            modelBuilder.Entity<ItemZone>()
+                .HasOne<Zone>(z => z.Zone)
+                .WithMany(iz => iz.ItemsZones)
+                .HasForeignKey(z => z.ZoneId);
         }
               
         

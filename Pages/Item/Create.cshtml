@@ -33,6 +33,12 @@
                 <select name="statusId" asp-items="Model.Statuses"></select>
             </div>
             <div class="form-group">
+                <label asp-for="Item.ItemsZones" class="control-label"></label>
+                <select name="zoneid" asp-items="Model.Zones" >
+                    <option value="">Select Zone</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
