@@ -12,7 +12,7 @@ namespace Garage003.Pages.Item
 {
     public class CreateModel : PageModel
     {
-        private readonly Garage003.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         public List<SelectListItem> Categories { get; set; }
         public List<SelectListItem> Statuses { get; set; }
         public List<SelectListItem> Zones { get; set; }
@@ -23,7 +23,8 @@ namespace Garage003.Pages.Item
             _context = context;
         }
 
-        public IActionResult OnGet(string categoryId)
+        //public IActionResult OnGet(string categoryId)
+        public IActionResult OnGet()
         {
             Categories = _context.Category.Select(a =>
                                   new SelectListItem
@@ -58,7 +59,7 @@ namespace Garage003.Pages.Item
             int zid = Convert.ToInt16(zoneid);
             Item.Category = _context.Category.Find(Item.CategoryId);
             Item.Status = _context.Status.Find(Item.StatusId);
-            //Item.ItemsZones.Add(_context.Zone.Where(x => x.ZoneId == zid));
+
             if (!_context.Item.Any())
                 Item.ItemSKU = 1;
             else

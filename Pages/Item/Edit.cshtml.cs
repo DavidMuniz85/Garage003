@@ -13,7 +13,10 @@ namespace Garage003.Pages.Item
 {
     public class EditModel : PageModel
     {
-        private readonly Garage003.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+        public List<SelectListItem> Categories { get; set; }
+        public List<SelectListItem> Statuses { get; set; }
+        public List<SelectListItem> Zones { get; set; }
 
         public EditModel(Garage003.Data.ApplicationDbContext context)
         {
@@ -30,6 +33,25 @@ namespace Garage003.Pages.Item
                 return NotFound();
             }
 
+            Categories = _context.Category.Select(a =>
+                                  new SelectListItem
+                                  {
+                                      Value = a.CategoryId.ToString(),
+                                      Text = a.CategoryName
+                                  }).ToList();
+            Statuses = _context.Status.Select(s =>
+                                  new SelectListItem
+                                  {
+                                      Value = s.StatusId.ToString(),
+                                      Text = s.StatusName
+                                  }).ToList();
+            Zones = _context.Zone.Select(s =>
+                                  new SelectListItem
+                                  {
+                                      Value = s.ZoneId.ToString(),
+                                      Text = s.ZoneName
+                                  }).ToList();
+
             var item =  await _context.Item.FirstOrDefaultAsync(m => m.ItemId == id);
             if (item == null)
             {
@@ -41,12 +63,13 @@ namespace Garage003.Pages.Item
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string categoryId, string statusId, string zoneid)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            Item.CategoryId = Convert.ToInt16(categoryId);
+            Item.StatusId = Convert.ToInt16(statusId);
+            int zid = Convert.ToInt16(zoneid);
+            Item.Category = _context.Category.Find(Item.CategoryId);
+            Item.Status = _context.Status.Find(Item.StatusId);
 
             _context.Attach(Item).State = EntityState.Modified;
 
@@ -65,7 +88,14 @@ namespace Garage003.Pages.Item
                     throw;
                 }
             }
-
+            if (zoneid != null)
+            {
+                var itemZone = new ItemZone();
+                itemZone.ZoneId = zid;
+                itemZone.ItemId = Item.ItemId;
+                _context.ItemZones.Add(itemZone);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToPage("./Index");
         }
 

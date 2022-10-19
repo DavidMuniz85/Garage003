@@ -15,16 +15,44 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Item.ItemId" />
+            <input type="hidden" asp-for="Item.ItemSKU" />
+            <input type="hidden" asp-for="Item.CategoryId" />
             <div class="form-group">
                 <label asp-for="Item.ItemName" class="control-label"></label>
                 <input asp-for="Item.ItemName" class="form-control" />
                 <span asp-validation-for="Item.ItemName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Item.ItemSKU" class="control-label"></label>
-                <input asp-for="Item.ItemSKU" class="form-control" />
-                <span asp-validation-for="Item.ItemSKU" class="text-danger"></span>
+                <label asp-for="Item.Category" class="control-label"></label>
+                <select name="categoryId" asp-items="Model.Categories"></select>
             </div>
+            <div class="form-group">
+                <label asp-for="Item.Status" class="control-label"></label>
+                <select name="statusId" asp-items="Model.Statuses"></select>
+            </div>
+            @if (this.Model.Item.ItemsZones.Count() == 0)
+            {
+                <div class="form-group">
+                    <label asp-for="Item.ItemsZones" class="control-label"></label>
+                    <select name="zoneid" asp-items="Model.Zones" >
+                        <option value="">Select Zone</option>
+                    </select>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="Item.ItemsZones" class="control-label"></label>
+                    <select name="zoneid" asp-items="Model.Zones" >
+                    </select>
+                </div>
+            }
+            <div class="form-group">
+                <label asp-for="Item.ItemsZones" class="control-label"></label>
+                <select name="zoneid" asp-items="Model.Zones" >
+                </select>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
