@@ -17,13 +17,11 @@ namespace Garage003.Pages.Item
         public List<SelectListItem> Statuses { get; set; }
         public List<SelectListItem> Zones { get; set; }
 
-
         public CreateModel(Garage003.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        //public IActionResult OnGet(string categoryId)
         public IActionResult OnGet()
         {
             Categories = _context.Category.Select(a =>

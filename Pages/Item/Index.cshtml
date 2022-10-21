@@ -6,7 +6,7 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Items</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -15,16 +15,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Item[0].ItemName)
+                Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Item[0].ItemSKU)
+                SKU
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Item[0].Category.CategoryName)
+                Category
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Item[0].Status.StatusName)
+                Current Status
             </th>
             <th>
                 Zone
